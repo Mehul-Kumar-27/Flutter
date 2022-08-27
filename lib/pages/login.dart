@@ -1,52 +1,93 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, use_build_context_synchronously
 
+import 'dart:ui';
+
+import 'package:codepur/pages/homePage.dart';
+import 'package:codepur/utils/routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String name = "";
+  bool changeButton = false;
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      child: Column(
-        children: [
-          Image.asset("assets/images/login_image.png", fit: BoxFit.cover),
-          SizedBox(
-            height: 20.0,
-          ),
-          Text(
-            "Welcome",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: ("Enter username"),
-                    labelText: ("Username"),
-                  ),
-                ),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: ("Enter password"),
-                    labelText: ("Password"),
-                  ),
-                )
-              ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.asset("assets/images/login_image.png", fit: BoxFit.cover),
+            SizedBox(
+              height: 20.0,
             ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text("Login"),
-            style: TextButton.styleFrom(),
-          )
-        ],
+            Text(
+              "Welcome $name",
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: ("Enter username"),
+                      labelText: ("Username"),
+                    ),
+                    onChanged: (value) {
+                      name = value;
+                      setState(() {});
+                    },
+                  ),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: ("Enter password"),
+                      labelText: ("Password"),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            InkWell(
+              onTap: () async {
+                setState(() {
+                  changeButton = true;
+                });
+
+                await Future.delayed(Duration(seconds: 1));
+
+                Navigator.pushNamed(context, MyRoutes.homePage);
+              },
+              child: AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  width: changeButton ? 40 : 150,
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: changeButton
+                      ? Icon(Icons.done, color: Colors.white)
+                      : Text(
+                          "Login",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                  decoration: BoxDecoration(
+                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.circular(40))),
+            )
+          ],
+        ),
       ),
     );
   }
