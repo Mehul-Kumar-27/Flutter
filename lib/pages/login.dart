@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, use_build_context_synchronously, unnecessary_new, prefer_final_fields
 
 import 'dart:ui';
 
@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String name = "";
+  String email = "";
   bool changeButton = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -25,7 +26,11 @@ class _LoginPageState extends State<LoginPage> {
 
       await Future.delayed(Duration(seconds: 1));
 
-      await Navigator.pushNamed(context, MyRoutes.homePage);
+      await Navigator.pushNamed(context, MyRoutes.homePage,
+          arguments: <String, String>{
+            'Name': name,
+            'Email': email,
+          });
       setState(() {
         changeButton = false;
       });
@@ -56,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextFormField(
                       decoration: InputDecoration(
-                        hintText: ("Enter username"),
+                        hintText: ("Enter Username"),
                         labelText: ("Username"),
                       ),
                       validator: (value) {
@@ -84,6 +89,14 @@ class _LoginPageState extends State<LoginPage> {
                           return "Password lenght cannot be lesss than 6 characters";
                         }
                         return null;
+                      },
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                          hintText: "Enter your email", labelText: "Email"),
+                      onChanged: (value) {
+                        email = value;
+                        setState(() {});
                       },
                     )
                   ],
