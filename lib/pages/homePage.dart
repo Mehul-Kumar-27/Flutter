@@ -1,3 +1,5 @@
+import 'package:codepur/models/catalog.dart';
+import 'package:codepur/widget/ItemWidgets.dart';
 import 'package:codepur/widget/drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +17,11 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
           title: Text("Catalog App"),
         ),
-        body: Center(child: Text("Welcome to Catalod App")),
-        drawer:MyDrawer(Name.toString() , Email.toString()));
+        body: ListView.builder(
+            itemCount: CatalogModel.products.length,
+            itemBuilder: (context, index) {
+              return ItemWidgets(item: CatalogModel.products[index]);
+            }),
+        drawer: MyDrawer(Name.toString(), Email.toString()));
   }
 }
