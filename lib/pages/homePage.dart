@@ -1,11 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:codepur/models/catalog.dart';
 import 'package:codepur/widget/ItemWidgets.dart';
 import 'package:codepur/widget/drawer.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-//import 'dart:convert';
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,19 +15,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
+  // @override
+
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadData();
   }
 
-  loadData() async {
+  Future<void> loadData() async {
+    await Future.delayed(Duration(seconds: 2));
     final jsonProducts =
-        await rootBundle.loadString("assets/files/products.json");
-    final decodedData = jsonDecode(jsonProducts);
-    var productData = decodedData["products"];
-    print(productData);
+        await rootBundle.loadString('assets/files/products.json');
+    final decodedData = await json.decode(jsonProducts);
+    final productData = decodedData["products"];
+
+    setState(() {
+      CatalogueModel.items = List.from(productData)
+          .map<Item>((item) => Item.fromMap(item))
+          .toList();
+    });
   }
 
   @override
@@ -41,11 +49,19 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
           title: Text("Catalog App"),
         ),
-        body: ListView.builder(
-            itemCount: CatalogModel.products.length,
-            itemBuilder: (context, index) {
-              return ItemWidgets(item: CatalogModel.products[index]);
-            }),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              (CatalogueModel.items != null && CatalogueModel.items!.isNotEmpty)
+                  ? ListView.builder(
+                      itemCount: CatalogueModel.items!.length,
+                      itemBuilder: (context, index) {
+                        return ItemWidget(item: CatalogueModel.items![index]);
+                      })
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ),
+        ),
         drawer: MyDrawer(Name.toString(), Email.toString()));
   }
 }
