@@ -10,6 +10,9 @@ import 'package:codepur/widget/drawer.dart';
 import 'dart:convert';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../widget/HomepageWidgets/catalog_header.dart';
+import '../widget/HomepageWidgets/catalog_list.dart';
+
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
@@ -46,108 +49,25 @@ class _HomePageState extends State<HomePage> {
     final Email = routeData['Email'];
 
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-            color: Color.fromARGB(255, 246, 233, 248),
-            padding: Vx.m24,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CatalogueHeader(),
-                if (CatalogueModel.items != null &&
-                    CatalogueModel.items!.isNotEmpty)
-                  CatalogueList().py16().expand()
-                else
-                  CircularProgressIndicator().centered().expand(),
-              ],
-            )),
-      ),
-    );
-  }
-}
-
-class CatalogueHeader extends StatelessWidget {
-  const CatalogueHeader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        "Catalog App".text.xl4.bold.purple800.make(),
-        "Trending Products".text.xl.pink400.make(),
-      ],
-    );
-  }
-}
-
-class CatalogueList extends StatelessWidget {
-  // const CatalogList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: CatalogueModel.items!.length,
-      itemBuilder: (context, index) {
-        final catalog = CatalogueModel.items![index];
-        return CatalogItems(catalog: catalog);
-      },
-    );
-  }
-}
-
-class CatalogImage extends StatelessWidget {
-  final String image;
-  const CatalogImage({Key? key, required this.image}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.network(image)
-        .box
-        .color(Color.fromARGB(255, 232, 201, 236))
-        .rounded
-        .p12
-        .make()
-        .p12()
-        .w40(context);
-  }
-}
-
-class CatalogItems extends StatelessWidget {
-  final Item catalog;
-
-  const CatalogItems({Key? key, required this.catalog}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return VxBox(
-        child: Row(
-      children: [
-        CatalogImage(image: catalog.image),
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            catalog.name.text.bold.make(),
-            catalog.desc.text.textStyle(context.captionStyle).make(),
-            10.heightBox,
-            ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              children: [
-                "\$${catalog.price}".text.bold.xl.make(),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: "Buy".text.make(),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.purple),
-                      shape: MaterialStateProperty.all(StadiumBorder())),
-                )
-              ],
-            )
-          ],
-        ))
-      ],
-    )).purple100.rounded.square(150).make().py12();
+        appBar: AppBar(
+          toolbarHeight: 40,
+        ),
+        body: SafeArea(
+          child: Container(
+              color: Colors.white12,
+              padding: Vx.m24,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CatalogueHeader(),
+                  if (CatalogueModel.items != null &&
+                      CatalogueModel.items!.isNotEmpty)
+                    CatalogueList().py16().expand()
+                  else
+                    CircularProgressIndicator().centered().expand(),
+                ],
+              )),
+        ),
+        drawer: MyDrawer(Name.toString(), Email.toString()));
   }
 }
