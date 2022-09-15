@@ -1,3 +1,4 @@
+import 'package:codepur/pages/cartPage.dart';
 import 'package:codepur/pages/homePage.dart';
 import 'package:codepur/pages/login.dart';
 import 'package:codepur/utils/routes.dart';
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       routes: {
         "/": (context) => LoginPage(),
-        MyRoutes.homePage: (context) => HomePage(),
+        MyRoutes.homePage: (context) => HomePage(), 
+        MyRoutes.cartPage:(context) => CartPage(),
       },
     );
   }

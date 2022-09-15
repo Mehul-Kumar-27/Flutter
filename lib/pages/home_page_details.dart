@@ -14,7 +14,9 @@ class HomeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.purple,
+      ),
       bottomNavigationBar: ButtonBar(
         alignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -51,16 +53,24 @@ class HomeDetailPage extends StatelessWidget {
                 child: Container(
                   width: context.screenWidth,
                   color: Colors.white70,
-                  child: Column(
-                    children: [
-                      catalog.name.text.bold.black.size(20).make(),
-                      5.heightBox,
-                      catalog.desc.text
-                          .textStyle(context.captionStyle)
-                          .size(10)
-                          .make(),
-                    ],
-                  ).py64().px12(),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        catalog.name.text.bold.black.size(20).make(),
+                        10.heightBox,
+                        catalog.desc.text
+                            .textStyle(context.captionStyle)
+                            .size(15)
+                            .bold
+                            .make(),
+                        15.heightBox,
+                        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+                            .text
+                            .textStyle(context.captionStyle)
+                            .make(),
+                      ],
+                    ).py64().px12(),
+                  ),
                 ),
               ))
             ],
