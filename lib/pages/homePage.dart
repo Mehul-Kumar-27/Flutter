@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'dart:convert';
 
+import 'package:codepur/utils/routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -68,6 +70,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               )),
         ),
-        drawer: MyDrawer(Name.toString(), Email.toString()));
+        drawer: MyDrawer(Name.toString(), Email.toString()),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.pushNamed(context, MyRoutes.cartPage),
+          child: Icon(CupertinoIcons.cart),
+        ));
   }
 }
