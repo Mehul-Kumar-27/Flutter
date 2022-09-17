@@ -34,7 +34,13 @@ class _CartTotal extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           "\$9999".text.xl4.align(TextAlign.left).make(),
-          ElevatedButton(onPressed: () {}, child: "Buy".text.make())
+          ElevatedButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            "Buying is not suppoeted yet !!!".text.make()));
+                  },
+                  child: "Buy".text.make())
               .w24(context),
         ],
       ),
