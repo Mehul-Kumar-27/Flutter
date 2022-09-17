@@ -4,11 +4,11 @@ class CatalogueModel {
   static List<Item>? items;
 
   //Get Item by ID
-  static Item getById(int id) =>
+  Item getById(int id) =>
       items!.firstWhere((element) => element.id == id, orElse: null);
 
   //Get Item by Position
-  static Item getByPosition(int pos) => items![pos];
+  Item getByPosition(int pos) => items![pos];
 }
 
 class Item {
@@ -39,23 +39,23 @@ class Item {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<dynamic, dynamic> toMap() {
     return {
-      'id': id,
+      id: id,
       'name': name,
       'desc': desc,
-      'price': price,
+      price: price,
       'color': color,
       'image': image,
     };
   }
 
-  factory Item.fromMap(Map<String, dynamic> map) {
+  factory Item.fromMap(Map<dynamic, dynamic> map) {
     return Item(
-      map['id'],
+      map["id"],
       map['name'],
       map['desc'],
-      map['price'],
+      map["price"],
       map['color'],
       map['image'],
     );
@@ -63,7 +63,7 @@ class Item {
 
   String toJson() => json.encode(toMap());
 
-  factory Item.fromJson(String source) => Item.fromMap(json.decode(source));
+  factory Item.fromJson(dynamic source) => Item.fromMap(json.decode(source));
 
   @override
   String toString() {
