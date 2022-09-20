@@ -28,7 +28,7 @@ class HomeDetailPage extends StatelessWidget {
               .make(),
           ElevatedButton(
             onPressed: () {},
-            child: "Buy".text.size(18).make(),
+            child: "Add to cart".text.size(18).make(),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.purple),
                 shape: MaterialStateProperty.all(StadiumBorder())),
