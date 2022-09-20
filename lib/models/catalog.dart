@@ -1,6 +1,12 @@
 import 'dart:convert';
 
 class CatalogueModel {
+  static final catalogModel = CatalogueModel._internal();
+
+  CatalogueModel._internal();
+
+  factory CatalogueModel() => catalogModel;
+
   static List<Item>? items;
 
   //Get Item by ID
@@ -41,16 +47,16 @@ class Item {
 
   Map<dynamic, dynamic> toMap() {
     return {
-      id: id,
+      'id': id,
       'name': name,
       'desc': desc,
-      price: price,
+      'price': price,
       'color': color,
       'image': image,
     };
   }
 
-  factory Item.fromMap(Map<dynamic, dynamic> map) {
+  factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
       map["id"],
       map['name'],
