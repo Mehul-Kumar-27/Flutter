@@ -39,23 +39,25 @@ class CatalogItems extends StatelessWidget {
             tag: Key(catalog.id.toString()),
             child: CatalogImage(image: catalog.image)),
         Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            catalog.name.text.bold.make(),
-            catalog.desc.text.textStyle(context.captionStyle).make(),
-            10.heightBox,
-            ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              children: [
-                "\$${catalog.price}".text.bold.xl.make(),
-                AddToCart(
-                  catalog: catalog,
-                )
-              ],
-            )
-          ],
+            child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              catalog.name.text.bold.make(),
+              catalog.desc.text.textStyle(context.captionStyle).make(),
+              10.heightBox,
+              ButtonBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  "\$${catalog.price}".text.bold.xl.make(),
+                  AddToCart(
+                    catalog: catalog,
+                  )
+                ],
+              )
+            ],
+          ),
         ))
       ],
     )).purple100.rounded.square(150).make().py12();
@@ -74,19 +76,20 @@ class AddToCart extends StatefulWidget {
 }
 
 class _AddToCartState extends State<AddToCart> {
-  bool isAdded = false;
+  bool addToCart = false;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        isAdded = isAdded.toggle();
-        //final catalog = CatalogueModel();
+        addToCart = addToCart.toggle();
         final _cart = CartModel();
+        final _catalog = CatalogueModel();
+        _cart.catalog = _catalog;
         _cart.add(widget.catalog);
 
         setState(() {});
       },
-      child: isAdded ? Icon(Icons.done) : "Add to cart".text.make(),
+      child: addToCart ? Icon(Icons.done) : "Add to cart".text.make(),
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.purple),
           shape: MaterialStateProperty.all(StadiumBorder())),
