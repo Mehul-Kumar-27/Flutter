@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../models/catalog.dart';
 import '../../pages/homePage.dart';
+import 'addToCart.dart';
 
 class CatalogueList extends StatelessWidget {
   // const CatalogList({Key? key}) : super(key: key);
@@ -64,38 +65,7 @@ class CatalogItems extends StatelessWidget {
   }
 }
 
-class AddToCart extends StatefulWidget {
-  final Item catalog;
-  const AddToCart({
-    Key? key,
-    required this.catalog,
-  }) : super(key: key);
 
-  @override
-  State<AddToCart> createState() => _AddToCartState();
-}
-
-class _AddToCartState extends State<AddToCart> {
-  bool addToCart = false;
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        addToCart = addToCart.toggle();
-        final _cart = CartModel();
-        final _catalog = CatalogueModel();
-        _cart.catalog = _catalog;
-        _cart.add(widget.catalog);
-
-        setState(() {});
-      },
-      child: addToCart ? Icon(Icons.done) : "Add to cart".text.make(),
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.purple),
-          shape: MaterialStateProperty.all(StadiumBorder())),
-    );
-  }
-}
 
 class CatalogImage extends StatelessWidget {
   final String image;

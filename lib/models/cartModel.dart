@@ -35,7 +35,7 @@ class CartModel {
     _itemIds.add(items.id);
   }
 
-  void remove(Item items) {
-    _itemIds.remove(items.id);
+  void remove(Item ?items) {
+    _itemIds.remove(items?.id);
   }
 }

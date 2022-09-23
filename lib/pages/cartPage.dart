@@ -9,6 +9,7 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Item catalog;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,7 +71,10 @@ class _CartListState extends State<CartList> {
                   leading: Icon(CupertinoIcons.right_chevron),
                   trailing: IconButton(
                     icon: Icon(CupertinoIcons.check_mark),
-                    onPressed: () {},
+                    onPressed: () {
+                      _cart.remove(_cart.items[index]);
+                      setState(() {});
+                    },
                   ),
                   title: CatalogueModel.items![index].name.text.make(),
                 )));
