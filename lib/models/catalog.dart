@@ -21,7 +21,7 @@ class Item {
   final int id;
   final String name;
   final String desc;
-  final num price;
+  final int price;
   final String color;
   final String image;
 
@@ -31,7 +31,7 @@ class Item {
     int? id,
     String? name,
     String? desc,
-    num? price,
+    int? price,
     String? color,
     String? image,
   }) {
