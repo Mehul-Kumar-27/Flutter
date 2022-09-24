@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../core.dart';
+
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
 
@@ -27,11 +29,9 @@ class CartPage extends StatelessWidget {
 }
 
 class _CartTotal extends StatelessWidget {
-  // const _CartTotal({Key? key}) : super(key: key);
-  final _cart = CartModel();
-
   @override
   Widget build(BuildContext context) {
+    final CartModel _cart = (VxState.store as MyStore).cartModel;
     return SizedBox(
       height: 200,
       child: Row(
@@ -52,17 +52,10 @@ class _CartTotal extends StatelessWidget {
   }
 }
 
-class CartList extends StatefulWidget {
-  const CartList({Key? key}) : super(key: key);
-
-  @override
-  State<CartList> createState() => _CartListState();
-}
-
-class _CartListState extends State<CartList> {
-  final _cart = CartModel();
+class CartList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final CartModel _cart = (VxState.store as MyStore).cartModel;
     return _cart.items.isEmpty
         ? "Nothing to show".text.make().centered()
         : ListView.builder(
@@ -73,7 +66,6 @@ class _CartListState extends State<CartList> {
                     icon: Icon(CupertinoIcons.check_mark),
                     onPressed: () {
                       _cart.remove(_cart.items[index]);
-                      setState(() {});
                     },
                   ),
                   title: CatalogueModel.items![index].name.text.make(),

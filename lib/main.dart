@@ -1,11 +1,13 @@
+import 'package:codepur/core.dart';
 import 'package:codepur/pages/cartPage.dart';
 import 'package:codepur/pages/homePage.dart';
 import 'package:codepur/pages/login.dart';
 import 'package:codepur/utils/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(VxState(store: MyStore(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
