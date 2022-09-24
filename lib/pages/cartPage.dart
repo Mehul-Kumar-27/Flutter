@@ -37,7 +37,17 @@ class _CartTotal extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          "\$${_cart.toatlPrice}".text.xl4.align(TextAlign.left).make(),
+          VxConsumer(
+            mutations: {RemoveMutation},
+            notifications: {},
+            builder: (context, MyStore, _) {
+              return "\$${_cart.toatlPrice}"
+                  .text
+                  .xl4
+                  .align(TextAlign.left)
+                  .make();
+            },
+          ),
           ElevatedButton(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -55,6 +65,7 @@ class _CartTotal extends StatelessWidget {
 class CartList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    VxState.watch(context, on: [RemoveMutation]);
     final CartModel _cart = (VxState.store as MyStore).cartModel;
     return _cart.items.isEmpty
         ? "Nothing to show".text.make().centered()
@@ -64,9 +75,7 @@ class CartList extends StatelessWidget {
                   leading: Icon(CupertinoIcons.right_chevron),
                   trailing: IconButton(
                     icon: Icon(CupertinoIcons.check_mark),
-                    onPressed: () {
-                      _cart.remove(_cart.items[index]);
-                    },
+                    onPressed: () => RemoveMutation(_cart.items[index]),
                   ),
                   title: CatalogueModel.items![index].name.text.make(),
                 )));
