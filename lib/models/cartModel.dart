@@ -7,7 +7,7 @@ class CartModel {
   CatalogueModel? _catalog;
 
   //List to store the item Ids
-  List<int> _itemIds = [];
+  final List<int> _itemIds = [];
 
   // get catalog
   CatalogueModel? get catalog => _catalog;

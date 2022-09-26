@@ -1,19 +1,23 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'dart:convert';
 
+import 'package:codepur/core.dart';
+import 'package:codepur/models/cartModel.dart';
 import 'package:codepur/utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:codepur/models/catalog.dart';
-import 'package:codepur/widget/ItemWidgets.dart';
+
 import 'package:codepur/widget/drawer.dart';
 import 'dart:convert';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../widget/HomepageWidgets/catalog_header.dart';
 import '../widget/HomepageWidgets/catalog_list.dart';
+
+import 'package:http/http.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,6 +26,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // @override
+
+  final url = "https://api.jsonbin.io/b/604dbddb683e7e079c4eefd3";
 
   void initState() {
     super.initState();
@@ -50,6 +56,8 @@ class _HomePageState extends State<HomePage> {
     final Name = routeData['Name'];
     final Email = routeData['Email'];
 
+    final _cart = (VxState.store as MyStore).cartModel;
+
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 40,
@@ -71,9 +79,17 @@ class _HomePageState extends State<HomePage> {
               )),
         ),
         drawer: MyDrawer(Name.toString(), Email.toString()),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, MyRoutes.cartPage),
-          child: Icon(CupertinoIcons.cart),
+        floatingActionButton: VxBuilder(
+          mutations: {RemoveMutation, AddMutation},
+          builder: (context, MyStore, _) => FloatingActionButton(
+            onPressed: () => Navigator.pushNamed(context, MyRoutes.cartPage),
+            child: Icon(CupertinoIcons.cart),
+          ).badge(
+              color: Vx.red400,
+              count: _cart.items.length,
+              size: 20,
+              textStyle:
+                  TextStyle(fontWeight: FontWeight.w400, color: Colors.black)),
         ));
   }
 }
