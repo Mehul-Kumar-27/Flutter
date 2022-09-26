@@ -11,18 +11,35 @@ class CatalogueList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: CatalogueModel.items!.length,
-      itemBuilder: (context, index) {
-        final catalog = CatalogueModel.items![index];
-        return InkWell(
-            onTap: () => Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomeDetailPage(catalog: catalog))),
-            child: CatalogItems(catalog: catalog));
-      },
-    );
+    return !context.isMobile
+        ? GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, crossAxisSpacing: 40),
+            itemCount: CatalogueModel.items!.length,
+            itemBuilder: (context, index) {
+              final catalog = CatalogueModel.items![index];
+              return InkWell(
+                  onTap: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeDetailPage(catalog: catalog))),
+                  child: CatalogItems(catalog: catalog));
+            },
+          )
+        : ListView.builder(
+            itemCount: CatalogueModel.items!.length,
+            itemBuilder: (context, index) {
+              final catalog = CatalogueModel.items![index];
+              return InkWell(
+                  onTap: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeDetailPage(catalog: catalog))),
+                  child: CatalogItems(catalog: catalog));
+            },
+          );
   }
 }
 
@@ -34,38 +51,74 @@ class CatalogItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return VxBox(
-        child: Row(
-      children: [
-        Hero(
-            tag: Key(catalog.id.toString()),
-            child: CatalogImage(image: catalog.image)),
-        Expanded(
-            child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              catalog.name.text.bold.make(),
-              catalog.desc.text.textStyle(context.captionStyle).make(),
-              10.heightBox,
-              ButtonBar(
-                alignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  "\$${catalog.price}".text.bold.xl.make(),
-                  AddToCart(
-                    catalog: catalog,
+            child: !context.isMobile
+                ? Column(
+                    children: [
+                      Hero(
+                          tag: Key(catalog.id.toString()),
+                          child: CatalogImage(image: catalog.image)),
+                      Expanded(
+                          child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            catalog.name.text.bold.make(),
+                            catalog.desc.text
+                                .textStyle(context.captionStyle)
+                                .make(),
+                            10.heightBox,
+                            ButtonBar(
+                              alignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                "\$${catalog.price}".text.bold.xl.make(),
+                                AddToCart(
+                                  catalog: catalog,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ))
+                    ],
                   )
-                ],
-              )
-            ],
-          ),
-        ))
-      ],
-    )).purple100.rounded.square(150).make().py12();
+                : Row(
+                    children: [
+                      Hero(
+                          tag: Key(catalog.id.toString()),
+                          child: CatalogImage(image: catalog.image)),
+                      Expanded(
+                          child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            catalog.name.text.bold.make(),
+                            catalog.desc.text
+                                .textStyle(context.captionStyle)
+                                .make(),
+                            10.heightBox,
+                            ButtonBar(
+                              alignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                "\$${catalog.price}".text.bold.xl.make(),
+                                AddToCart(
+                                  catalog: catalog,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ))
+                    ],
+                  ))
+        .purple100
+        .rounded
+        .square(150)
+        .make()
+        .py12();
   }
 }
-
-
 
 class CatalogImage extends StatelessWidget {
   final String image;
@@ -80,6 +133,6 @@ class CatalogImage extends StatelessWidget {
         .p12
         .make()
         .p12()
-        .w40(context);
+        .wPCT(context: context, widthPCT: !context.isMobile ? 20 : 40);
   }
 }
